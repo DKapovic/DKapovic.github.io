@@ -8,7 +8,7 @@
     <p>Kako spremiti/izmijeniti podatke.</p>
 
     <p>
-novi tekst
+
         Moja bilješka<br> 
         Posjeti nas na stranici:<br>
         <a href="https://github.com/DollyCup/HTML/blob/main/proba">proba</a><br>
@@ -16,8 +16,6 @@ novi tekst
         Croatia
     </p>
 
-    <script>
-        // javascript
-    </script>
+  
 </body>
 </html>
