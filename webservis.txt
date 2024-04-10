@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vremenska prognoza</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .weather {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px;
+            max-width: 300px;
+        }
+    </style>
+</head>
+<body>
+    <div class="weather" id="weatherData">
+        <h2>Vremenska prognoza za:</h2>
+        <input type="text" id="cityInput" placeholder="Unesite grad">
+        <button onclick="dohvatiVremenskePodatke()">Prikaži</button>
+        <p id="temperature">Temperatura: </p>
+        <p id="pressure">Tlak: </p>
+    </div>
+<script>
+async function dohvatiVremenskePodatke(){
+    const grad = document.getElementById("cityInput").value;
+    const url = "https://vrijeme.hr/hrvatska_n.xml";
+    const parser = new DOMParser();
+
+
+    const response = await fetch(url);
+    const data = await response.text();
+    const xml = parser.parseFromString(data, "application/xml");
+    console.log(xml);
+
+    
+
+    const gradNode = xml.querySelector(`Grad>GradIme`);
+
+    console.log(gradNode);
+
+    const temperatura = gradNode.querySelector('temperatura').textContent; // Ispravljeno
+    const tlak = gradNode.querySelector('tlak').textContent;
+
+    console.log(temperatura)
+    console.log(tlak)
+}
+
+
+async function dohvatiIVrijeme(){
+    const grad = document.getElementById("cityInput").value;
+    const url = "https://vrijeme.hr/hrvatska_n.xml";
+
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error('Mrežni odgovor nije u redu');
+        }
+        const data = await response.text();
+        const parser = new DOMParser();
+        const xml = parser.parseFromString(data, "application/xml");
+        const gradNode = xml.querySelector(`grad[ime="${grad}"]`);
+        if (!gradNode) {
+            throw new Error('Podaci za taj grad nisu dostupni');
+        }
+        const temperatura = gradNode.querySelector('temperatura').textContent; // Ispravljeno
+        const tlak = gradNode.querySelector('tlak').textContent;
+
+        prikaziVremenskePodatke(temperatura, tlak); // Ispravljeno
+    } catch (error) {
+        console.error('Došlo je do problema s dohvaćanjem podataka:', error);
+        resetirajVremenskePodatke();
+    }
+}
+
+function prikaziVremenskePodatke(temp, tlak) {
+    const temperaturaElement = document.getElementById("temperature");
+    const tlakElement = document.getElementById("pressure");
+    temperaturaElement.textContent = "Temperatura: " + temp + " °C";
+    tlakElement.textContent = "Tlak: " + tlak + " hPa";
+}
+
+function resetirajVremenskePodatke() {
+    const temperaturaElement = document.getElementById("temperature");
+    const tlakElement = document.getElementById("pressure");
+    temperaturaElement.textContent = "Temperatura: ";
+    tlakElement.textContent = "Tlak: ";
+}
+</script>
+</body>
+</html>
+
+
+
+
