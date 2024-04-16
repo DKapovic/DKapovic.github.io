@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Boja linka</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<style>
+  /* Stil za link */
+  a {
+    color: #000; /* Početna boja teksta */
+  
+    transition: color 0.3s; /* Glatka tranzicija boje */
+  }
+
+  /* Stil za link kada se prelazi preko njega */
+  a:hover {
+    color: #4CAF50; /* Boja teksta kada se prelazi preko linka */
+  }
+</style>
+</head>
+<body>
+
+<!-- Link koji mijenja boju kada se prelazi preko njega -->
+<a href="#" id="promijeniBoju">Prelazak preko teksta mijenja boju!</a>
+
+<script>
+  // jQuery skripta za promjenu boje teksta linka
+  $(document).ready(function(){
+    $('#promijeniBoju').hover(function(){
+      $(this).css('color', '#FF5733'); // Boja teksta kada se prelazi preko linka
+    }, function(){
+      $(this).css('color', '#000000');
+    });
+  });
+</script>
+
+</body>
+</html>
